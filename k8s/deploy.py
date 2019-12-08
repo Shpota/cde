@@ -1,5 +1,14 @@
 #!/usr/bin/env python3
+from http.server import HTTPServer, BaseHTTPRequestHandler
 from subprocess import Popen, check_output, call
+
+
+class GitHookHandler(BaseHTTPRequestHandler):
+
+    def do_GET(self):
+        create_app()
+        self.send_response(200)
+        self.end_headers()
 
 
 def create_app():
@@ -34,4 +43,4 @@ def run(command: str):
 
 
 if __name__ == '__main__':
-    create_app()
+    HTTPServer(('', 8899), GitHookHandler).serve_forever()
