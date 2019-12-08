@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: example
+  name: {{ NAME }}
 spec:
   selector:
     matchLabels:
-      app: example
+      app: {{ NAME }}
   replicas: 1
   template:
     metadata:
       labels:
-        app: example
+        app: {{ NAME }}
     spec:
       containers:
-        - name: example
-          image: localhost:5000/cde:example
+        - name: {{ NAME }}
+          image: localhost:5000/cde:{{ NAME }}
           ports:
             - containerPort: 80
 
@@ -23,10 +23,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: example
+  name: {{ NAME }}
 spec:
   selector:
-    app: example
+    app: {{ NAME }}
   ports:
     - protocol: TCP
       port: 80
@@ -37,14 +37,14 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: example
+  name: {{ NAME }}
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
     - http:
         paths:
-          - path: /example
+          - path: /{{ NAME }}
             backend:
-              serviceName: example
+              serviceName: {{ NAME }}
               servicePort: 80
